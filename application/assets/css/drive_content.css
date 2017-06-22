@@ -1,0 +1,22 @@
+.drive-object {
+  border: 1px solid lightgrey;
+  border-radius: 3%;
+  padding: 5px;
+  cursor: pointer; }
+  .drive-object:hover {
+    background: #f9f9f9; }
+  .drive-object.active {
+    background: #f2f2f2; }
+  .drive-object > img {
+    width: 100%; }
+  .drive-object > p {
+    margin: 0;
+    padding-top: .2rem;
+    font-size: .8rem;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #0275d8; }
+
+/*# sourceMappingURL=drive_content.css.map */

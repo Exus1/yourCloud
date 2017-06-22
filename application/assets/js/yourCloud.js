@@ -1,0 +1,211 @@
+var Your_cloud = {
+	user_configuration: {
+		sort_type: 1,
+	},
+	base_url: 'localhost',
+	dropzone_file_template: '<div class="row upload-item"><div class="col-12 action text-right"><button data-dz-remove class="btn btn-cancel">Anuluj</button></div><div class="col-2 icon"><img src="" alt=""></div><div class="col-10 text-right file-details"><div class="row"><div data-dz-name class="col-12 text-right">Nazwa pliku</div><div data-dz-size class="col-12 text-right">6.5MB</div></div></div><div class="w-100"><div class="progress"><div data-dz-uploadprogress class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div></div></div></div>',
+	object_template: '<div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1 mb-3 object-container"><div class="drive-object" data-id="" data-name="" data-type="" data-clicked="false"></div></div>',
+	object_property_template: '<div class="row property"><div class="col-5 property-name">Typ</div><div class="col-7 property-value">Folder</div></div>',
+	add_object: null,
+	get_object_properties: null,
+	refresh_objects: null,
+	objects_container: '#drive-content',
+	sort_functions: {
+		selected: 'asort',
+		asort: function(a, b)
+		{
+			if(a['name'] < b['name'])
+			{
+				return -1;
+			}
+			else
+			{
+				return 1;
+			}
+		},
+		rsort: function(a, b)
+		{
+			if(a['name'] > b['name'])
+			{
+				return -1;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	},
+	callbacks: {
+		object_click: null,
+		object_create: null,
+		//folder_create: null
+	}
+};
+
+
+Your_cloud.add_object = function(object_data)
+{
+	// object_data = $.parseJSON(object_data);
+	// if(typeof object_data === 'undefined')
+	// {
+	// 	alert('Błędne dane w add_object');
+	// 	return FALSE;
+	// }
+
+	var object = $(Your_cloud.object_template).find('.drive-object');
+
+	// if(typeof object_data.img_src === 'undefined') return FALSE;
+
+	// if(typeof object_data.img_alt === 'undefined') return FALSE;
+
+	// if(typeof object_data.name === 'undefined') return FALSE;
+
+	// if(typeof object_data.id === 'undefined') return FALSE;
+
+	// if(typeof object_data.type === 'undefined') return FALSE;
+
+	object.append('<img src="' + object_data.icon_src + '" alt="' + object_data.icon_alt + '">');
+	object.append('<p>' + object_data.name + '</p>');
+
+	object.attr('data-type', object_data.type);
+	object.attr('data-name', object_data.name);
+	object.attr('data-id', object_data.id);
+
+	$(Your_cloud.objects_container).append(object.parent());
+}
+
+Your_cloud.refresh_objects = function() 
+{
+	$(Your_cloud.objects_container).html('');
+
+	$.get('', {action: 'get_all_objects'}).done(function(data)
+	{
+		data = JSON.parse(data);
+	
+		if(typeof data === 'undefined')
+		{
+			alert('Błędne dane z get_folders');
+			return FALSE;
+		}
+	
+		var files = $.map(data['files'], function(value, index) {
+	    	return [value];
+		});
+	
+		var folders = $.map(data['folders'], function(value, index) {
+	    	return [value];
+		});
+	
+		var sort_func = Your_cloud.sort_functions.selected;
+	
+		files.sort(Your_cloud.sort_functions[sort_func]);
+		folders.sort(Your_cloud.sort_functions[sort_func]);
+	
+		$.each(folders, function(key, value) {
+			Your_cloud.add_object(value);
+		});
+	
+		$.each(files, function(key, value) {
+			Your_cloud.add_object(value);
+		});
+	});
+
+	
+}
+
+Your_cloud.callbacks.object_click = function(e)
+{
+	var obj = $(e.target);
+
+	if(obj.hasClass('drive-object'))
+	{
+		// OK
+	}
+	else if(obj.parent().hasClass('drive-object'))
+	{
+		obj = obj.parent();
+	}
+	else
+	{
+		return;
+	}
+
+	function set_property_object(name, value)
+	{
+		var property = $(Your_cloud.object_property_template);
+
+		property.find('.property-name').html(name);
+		property.find('.property-value').html(value);
+
+		$('.preview-properties').append(property);
+	}
+
+	if($(obj).attr('data-clicked') == 'true')
+	{
+		if(obj.data('type') == '2')
+		{
+			var new_url = '/' + $(obj).data('name');
+		}
+		else
+		{
+			var new_url = '?action=download_file&id=' + $(obj).data('id');
+		}
+
+		window.location.href += new_url;
+	}
+	else
+	{
+		e.preventDefault();
+
+		$.get('', {action: 'object_properties', id: $(obj).data('id')}).always(function(data) {
+			var obj_props = JSON.parse(data);
+
+			$('.preview-properties').html('');
+
+			$(Your_cloud.object_property_template).find('img').attr('src', obj_props['icon-src']);
+			$(Your_cloud.object_property_template).find('img').attr('alt', obj_props['icon-alt']);
+
+			$.each(obj_props, function(name, value) {
+				if((name == 'icon-src') || (name == 'icon-alt'))
+				{
+					return true;
+				}
+
+				set_property_object(name, value, '.preview-properties');
+			});
+		});
+
+		$('.drive-object').attr('data-clicked', 'false');
+		$(obj).attr('data-clicked', 'true');
+	}
+}
+
+Your_cloud.callbacks.object_create = function(e)
+{
+	var type = $(this).data('create');
+	var modal_id = '#corner-menu-modal-'+ type;
+
+	var name = encodeURI($(modal_id +' input').val());
+
+	$.get('', {action: 'create_'+ type, name: name}).always(function(data) {
+		if(data == 'success')
+		{
+			Your_cloud.refresh_objects();
+			$(modal_id +' input').val('');
+			$(modal_id).modal('hide');
+		}
+		else
+		{
+			$(modal_id +' .message').html(data);
+		}
+	});
+}
+
+
+$('#drive-content').click(Your_cloud.callbacks.object_click);
+
+
+Your_cloud.refresh_objects();
+//Your_cloud.add_object('{"icon_src":"test","icon_alt":"test","id":1,"type":1,"name":"lul"}');
+
+$('.corner-menu-modal button[data-create]').click(Your_cloud.callbacks.object_create);

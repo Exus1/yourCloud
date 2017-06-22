@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,IAAK;EACJ,UAAU,EAAE,0BAA0B;EACtC,eAAe,EAAE,KAAK;;AAIvB,gBAAiB;EAChB,UAAU,EAAE,oBAAoB;EAChC,QAAQ,EAAE,QAAQ;EAClB,UAAU,EAAE,IAAI;EAChB,KAAK,EAAE,IAAI;EAEX,qBAAK;IACJ,UAAU,EAAE,IAAI;;AAKlB,YAAY;EACV,MAAM,EAAE,MAAM",
+"sources": ["first_setup.scss"],
+"names": [],
+"file": "first_setup.css"
+}

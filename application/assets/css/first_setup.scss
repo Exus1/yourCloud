@@ -1,0 +1,21 @@
+body {
+	background: url('../img/login_bg.jpg');
+	background-size: cover;
+
+}
+
+.container-fluid {
+	background: rgba(0, 0, 10, 0.55);
+	position: absolute;
+	min-height: 100%;
+	width: 100%;
+
+	.row {
+		min-height: 100%;
+	}
+}
+
+
+#config-form{
+  margin: 25px 0;
+}

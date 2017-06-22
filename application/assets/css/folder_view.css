@@ -1,0 +1,150 @@
+/* NOWY CSS */
+body {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  min-width: 1000px; }
+
+#navbar {
+  height: 64px;
+  box-shadow: 0px -5px 20px #888888;
+  z-index: 10;
+  min-width: 1000px; }
+
+#right-menu-categories, #right-menu {
+  width: 320px !important;
+  height: 100%; }
+
+#right-menu-categories {
+  padding: 0 15px;
+  padding-left: 0;
+  text-align: center; }
+  #right-menu-categories a {
+    font-size: 1.5rem;
+    line-height: 48px;
+    color: grey; }
+    #right-menu-categories a:hover {
+      color: #025aa5; }
+    #right-menu-categories a.active {
+      color: #0275d8; }
+
+#content {
+  height: 100%;
+  padding-top: 64px; }
+  #content > .row {
+    height: 100%; }
+
+#left-content-container {
+  min-width: 580px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden; }
+
+#floating-text {
+  position: fixed;
+  z-index: 0;
+  left: 50%;
+  top: 45%;
+  transform: translateX(-50%);
+  color: lightgrey; }
+
+#upload-section {
+  position: fixed;
+  bottom: 0;
+  width: 320px;
+  background: #f7f7f7; }
+  #upload-section #upload-box {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 14rem; }
+  #upload-section .upload-item {
+    padding-top: 5px;
+    box-shadow: 0px 0px 40px -15px #888888 inset;
+    position: relative;
+    height: 3.3rem; }
+    #upload-section .upload-item .icon {
+      padding: 0 10px; }
+      #upload-section .upload-item .icon img {
+        width: 100%;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%); }
+    #upload-section .upload-item .progress {
+      margin-top: 5px;
+      width: 100%;
+      height: .3rem; }
+    #upload-section .upload-item .action {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 0;
+      transition: all .3s;
+      opacity: 0; }
+      #upload-section .upload-item .action .btn-cancel {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border: none;
+        color: grey;
+        cursor: pointer; }
+        #upload-section .upload-item .action .btn-cancel:focus {
+          box-shadow: none;
+          box-shadow: 0px 0px 90px -15px #888888 inset; }
+    #upload-section .upload-item:hover .action {
+      opacity: 1; }
+  #upload-section #upload-button i {
+    margin-right: .5em; }
+
+#sort-button, #view-button {
+  float: right;
+  padding-left: 15px; }
+  #sort-button .dropdown-toggle, #view-button .dropdown-toggle {
+    border: none;
+    background: none;
+    padding: 0;
+    color: grey; }
+    #sort-button .dropdown-toggle:after, #view-button .dropdown-toggle:after {
+      margin: 0; }
+  #sort-button .dropdown-menu, #view-button .dropdown-menu {
+    min-width: 1px; }
+  #sort-button .dropdown-item, #view-button .dropdown-item {
+    font-size: 1.4em;
+    padding: 5px 15px;
+    line-height: 1.5em;
+    color: grey; }
+
+.breadcrumb {
+  padding: 0 15px;
+  line-height: 48px;
+  height: 48px; }
+  .breadcrumb i.home-link {
+    font-size: 1.4em; }
+
+.active {
+  color: #0275d8; }
+
+#item-properties .preview-img img {
+  width: 50%; }
+#item-properties .preview-properties {
+  text-align: center; }
+  #item-properties .preview-properties .property {
+    margin-bottom: .55rem; }
+  #item-properties .preview-properties .property-name, #item-properties .preview-properties .property-value {
+    text-align: left; }
+  #item-properties .preview-properties .property-name {
+    color: grey; }
+    #item-properties .preview-properties .property-name .edit {
+      display: inline-block;
+      cursor: pointer;
+      color: #0275d8; }
+
+#right-menu {
+  background: #f7f7f7;
+  padding: 15px;
+  font-size: .8rem; }
+
+/*# sourceMappingURL=folder_view.css.map */
