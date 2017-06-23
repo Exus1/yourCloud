@@ -64,8 +64,8 @@
 						<a class="breadcrumb-item active" href="#">3</a> -->
 					</div>
 
-					<div>
-						<div id="view-button" class="dropdown">
+					<div id="breadcrumb-buttons">
+						<!-- <div id="view-button" class="dropdown">
 							<a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     							<i class="icon-th-list"></i>
   							</a>
@@ -73,14 +73,14 @@
     							<a class="dropdown-item" href="#"><i class="icon-th-list"></i></a>
     							<a class="dropdown-item" href="#"><i class="icon-th-large"></i></a>
   							</div>
-						</div>
-						<div id="sort-button" class="dropdown">
-							<a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						</div> -->
+						<div id="sort-button" class="dropdown ">
+							<button class="btn btn-secondary dropdown-toggle" id="dropdown-sort-style" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     							<i class="icon-sort-name-up"></i>
-  							</a>
-  							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    							<a class="dropdown-item" href="#"><i class="icon-sort-name-up"></i></a>
-    							<a class="dropdown-item" href="#"><i class="icon-sort-name-down"></i></a>
+  							</button>
+  							<div class="dropdown-menu" aria-labelledby="dropdown-sort-style">
+    							<button class="dropdown-item" data-sort-function="asc"><i class="icon-sort-name-up"></i></button>
+    							<button class="dropdown-item" data-sort-function="desc"><i class="icon-sort-name-down"></i></button>
   							</div>
 						</div>
 					</div>

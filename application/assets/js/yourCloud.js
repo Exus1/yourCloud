@@ -11,8 +11,8 @@ var Your_cloud = {
 	refresh_objects: null,
 	objects_container: '#drive-content',
 	sort_functions: {
-		selected: 'asort',
-		asort: function(a, b)
+		selected: 'asc',
+		asc: function(a, b)
 		{
 			if(a['name'] < b['name'])
 			{
@@ -23,7 +23,7 @@ var Your_cloud = {
 				return 1;
 			}
 		},
-		rsort: function(a, b)
+		desc: function(a, b)
 		{
 			if(a['name'] > b['name'])
 			{
@@ -39,7 +39,8 @@ var Your_cloud = {
 		object_click: null,
 		object_create: null,
 		object_rename: null,
-		object_delete: null
+		object_delete: null,
+		sorting_select: null,
 		//folder_create: null
 	}
 };
@@ -110,6 +111,9 @@ Your_cloud.refresh_objects = function()
 		$.each(files, function(key, value) {
 			Your_cloud.add_object(value);
 		});
+
+		$('[data-sort-function]').removeClass('active');
+		$('[data-sort-function="'+ sort_func +'"]').addClass('active');
 	});
 
 	
@@ -265,6 +269,19 @@ Your_cloud.callbacks.object_delete = function()
 	});
 }
 
+Your_cloud.callbacks.sorting_select = function(e) 
+{
+	var target = $(e.target);
+
+	if(target.is('i'))
+	{
+		target = target.parent();
+	}
+
+	Your_cloud.sort_functions.selected = target.data('sort-function');
+	Your_cloud.refresh_objects();
+}
+
 
 $('#drive-content').click(Your_cloud.callbacks.object_click);
 
@@ -284,3 +301,5 @@ $('.manage-menu').click(function(e)
 
 	Your_cloud.callbacks['object_'+action]();
 });
+
+$('#sort-button .dropdown-menu').click(Your_cloud.callbacks.sorting_select);

@@ -269,3 +269,26 @@ body
   }
 }
 
+#breadcrumb-buttons
+{
+  .dropdown-item.active, .dropdown-item:active
+  {
+    color: white;
+    outline: none;
+  }
+}
+
+*:focus
+{
+  outline: none;
+}
+
+button
+{
+  cursor: pointer;
+}
+
+.btn:focus
+{
+  box-shadow: none;
+}

@@ -149,4 +149,17 @@ body {
   #right-menu .manage-menu {
     display: none; }
 
+#breadcrumb-buttons .dropdown-item.active, #breadcrumb-buttons .dropdown-item:active {
+  color: white;
+  outline: none; }
+
+*:focus {
+  outline: none; }
+
+button {
+  cursor: pointer; }
+
+.btn:focus {
+  box-shadow: none; }
+
 /*# sourceMappingURL=folder_view.css.map */
