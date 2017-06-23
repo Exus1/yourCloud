@@ -231,7 +231,7 @@ abstract class Cloud_object
 
 		if(rename($path, $path_to))
 		{
-			if(update_data($db_data))
+			if($this->update_data($db_data))
 			{
 				return TRUE;
 			}

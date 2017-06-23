@@ -20,6 +20,6 @@ class Cloud_file extends Cloud_object
 			return FALSE;
 		}
 
-		return $this->db->where('id', $this->id)->delete('yc_filecache');
+		return $this->ci->db->where('id', $this->id)->delete('yc_filecache');
 	}
 }

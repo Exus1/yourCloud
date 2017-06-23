@@ -2,15 +2,37 @@
 
 class Cloud_folder extends Cloud_object
 {
+	function __consturct()
+	{
+		parent::__consturct();
+	}
 
 	public function delete()
 	{
+		$objects = $this->get_all_objects();
+
+		foreach ($objects['folders'] as $object) 
+		{
+			if(! $object->delete())
+			{
+				return FALSE;
+			}
+		}
+
+		foreach ($objects['files'] as $object) 
+		{
+			if(! $object->delete())
+			{
+				return FALSE;
+			}
+		}
+
 		if(! rmdir($this->absolute_path))
 		{
 			return FALSE;
 		}
 
-		return $this->db->where('id', $this->id)->delete('yc_filecache');
+		return $this->ci->db->where('id', $this->id)->delete('yc_filecache');
 	}
 
 	public function create_folder($name)
@@ -98,7 +120,7 @@ class Cloud_folder extends Cloud_object
 
 		foreach($result as &$object)
 		{
-			$object = new Cloud_file($object);
+			$object = new Cloud_folder($object);
 
 			if($summary)
 			{

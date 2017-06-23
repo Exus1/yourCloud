@@ -22,6 +22,8 @@ class Folder extends MY_Controller {
 
 		$this->storage = Cloud_folder::get($this->paths['relative']);
 
+		$this->lang->load('folder_view', 'english');
+		$this->lang->load('general', 'english');
 
 		if(! $this->storage)
 		{
@@ -50,36 +52,6 @@ class Folder extends MY_Controller {
 		);
 
 		$this->load->view('folder_view', $veiw_data);
-
-		// $script_data = array(
-		// 	'folder_name' => $this->this_storage->get_name(),
-		// 	'folder_path' => $this->this_storage->get_paths()['relative'],
-		// 	'api_address' => base_url() . 'api/',
-		// 	'base_url' => base_url(),
-		// 	'corner_menu_messages' => array(
-		// 		'file' => array(
-		// 			'title' => 'File creating test',
-		// 			'label' => 'File name',
-		// 			'err_msg' => 'Thats file already exists',
-		// 			'empty_input' => 'You must input file name'
-		// 		),
-		// 		'folder' => array(
-		// 			'title' => 'Folder creating test',
-		// 			'label' => 'Folder name',
-		// 			'err_msg' => 'Thats older already exists',
-		// 			'empty_input' => 'You must input file name'
-		// 		)
-		// 	),
-		// );
-
-		// $view_data = array(
-		// 	'this_folder' => $this->this_storage,
-		// 	'script_data' => json_encode($script_data)
-		// );
-
-		// $this->load->view('site_header');
-		// $this->load->view('folder_view/view', $view_data);
-		// $this->load->view('site_footer');
 	}
 
 	private function _action_handle($action = FALSE)
@@ -93,11 +65,6 @@ class Folder extends MY_Controller {
 		{
 			case 'get_folders':
 			{
-				// print '<pre>';
-				// $folders = $this->storage->get_folders(TRUE);
-				// print_r($folders);
-				// break;
-
 				echo json_encode($this->storage->get_folders(TRUE));
 				break;
 			}
@@ -159,6 +126,72 @@ class Folder extends MY_Controller {
 				}
 
 				$this->_download_file_action($_GET['id']);
+				break;
+			}
+
+			case 'rename_object':
+			{
+				if(! isset($_GET['id']) || empty($_GET['id']))
+				{
+					echo 'You must give a file id in id parameter';
+					break;
+				}
+
+				if(! isset($_GET['new_name']) || empty($_GET['new_name']))
+				{
+					echo 'You must give a file new name in new_name parameter';
+					break;
+				}
+
+				$obj = Cloud_object::get_by_id($_GET['id']);
+
+				if(! $obj)
+				{
+					echo "Object does not exist";
+
+					return;
+				}
+
+				$name = $this->security->xss_clean($_GET['new_name']);
+
+				if($obj->rename($name))
+				{
+					echo 'success';
+				}
+				else
+				{
+					echo 'error';
+				}
+
+				break;
+			}
+
+			case 'delete_object':
+			{
+				if(! isset($_GET['id']) || empty($_GET['id']))
+				{
+					echo 'You must give a file id in id parameter';
+					break;
+				}
+
+				$obj = Cloud_object::get_by_id($_GET['id']);
+
+				if(! $obj)
+				{
+					echo "Object does not exist";
+
+					return;
+				}
+
+				if($obj->delete())
+				{
+					echo 'success';
+				}
+				else
+				{
+					echo 'error';
+				}
+
 				break;
 			}
 
@@ -263,13 +296,16 @@ class Folder extends MY_Controller {
 		{
 			$info = $item->summary();
 
+			$this->lang->load('file_properties');
+			$lang =& $this->lang;
+
 			$properties = array(
-				'name' => $info['name'],
-				'type' => ($info['type'] == 1)? 'File' : 'Folder',
-				'size' => $this->_size_converter($info['size']),
-				'owner' => $this->db->select('name')->where('user_id', $info['owner_id'])->get('yc_users')->row_array()['name'],
-				'shared' => 'No',
-				'created' => date('d.m.Y H:i', $info['created']),
+				$lang->line('name') => $info['name'],
+				$lang->line('type') => ($info['type'] == 1)? $lang->line('type_file') : $lang->line('type_folder'),
+				$lang->line('size') => ($info['type'] == 1)? $this->_size_converter($info['size']) : '---',
+				$lang->line('owners') => $this->db->select('name')->where('user_id', $info['owner_id'])->get('yc_users')->row_array()['name'],
+				$lang->line('shared') => $lang->line('shared_no'),
+				$lang->line('created') => date('d.m.Y H:i', $info['created']),
 				'icon-src' => 'http://yourcloud.dev/application/assets/file_type_icons_png/search.png',
 				'icon-alt' => 'Icon'
 			);

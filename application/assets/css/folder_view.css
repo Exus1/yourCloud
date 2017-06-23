@@ -146,5 +146,7 @@ body {
   background: #f7f7f7;
   padding: 15px;
   font-size: .8rem; }
+  #right-menu .manage-menu {
+    display: none; }
 
 /*# sourceMappingURL=folder_view.css.map */

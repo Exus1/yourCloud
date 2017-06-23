@@ -1,3 +1,7 @@
+<?php
+	$lang =& get_instance()->lang;
+?>
+
 <!DocType html>
 <html lang="pl">
 <head>
@@ -108,7 +112,7 @@
 		<div class="row">
 			<div class="col pt-3" id="left-content-container" style=" min-width: 500px">
 				<div class="" id="floating-text">
-					Drag to upload
+					<?= $lang->line('float_upload_title') ?>
 				</div>
 
 				<div class="row" id="drive-content" data-id='' data-name='' data-path='' data-url='<?= get_instance()->uri->uri_string() ?>'>
@@ -146,46 +150,96 @@
 	  			<div class="modal-dialog" role="document">
 	    			<div class="modal-content">
 	      				<div class="modal-header">
-	        				<h5 class="modal-title">File creating</h5>
+	        				<h5 class="modal-title"><?= $lang->line('folder_creating') ?></h5>
 	        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          					<span aria-hidden="true">&times;</span>
 	        				</button>
 	      				</div>
 	      				<div class="modal-body">
 	       					<div class="form-group">
-	            				<label for="recipient-name" class="form-control-label">File name: <span class="text-danger message"></span></label>
+	            				<label for="recipient-name" class="form-control-label"><?= $lang->line('name') ?>: <span class="text-danger message"></span></label>
 	            				<input type="text" class="form-control" id="recipient-name">
 	            				<div class="form-control-feedback"></div>
 	          				</div>
 	      				</div>
 	      				<div class="modal-footer">
-	        				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        				<button type="button" class="btn btn-primary" data-create="folder">Create</button>
+	        				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $lang->line('close') ?></button>
+	        				<button type="button" class="btn btn-primary" data-create="folder"><?= $lang->line('create') ?></button>
 	      				</div>
 	    			</div>
 	  			</div>
 			</div>
 
 			<!-- Modal -->
-			<div class="modal fade corner-menu-modal" id="corner-menu-modal-file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade corner-menu-modal" id="corner-menu-modal-file" tabindex="-1" role="dialog" aria-hidden="true">
 	  			<div class="modal-dialog" role="document">
 	    			<div class="modal-content">
 	      				<div class="modal-header">
-	        				<h5 class="modal-title">File creating</h5>
+	        				<h5 class="modal-title"><?= $lang->line('file_creating') ?></h5>
 	        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          					<span aria-hidden="true">&times;</span>
 	        				</button>
 	      				</div>
 	      				<div class="modal-body">
 	       					<div class="form-group">
-	            				<label for="recipient-name" class="form-control-label">File name: <span class="text-danger message"></span></label>
+	            				<label for="recipient-name" class="form-control-label"><?= $lang->line('name') ?>: <span class="text-danger message"></span></label>
 	            				<input type="text" class="form-control" id="recipient-name">
 	            				<div class="form-control-feedback"></div>
 	          				</div>
 	      				</div>
 	      				<div class="modal-footer">
-	        				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        				<button type="button" class="btn btn-primary" data-create="file">Create</button>
+	        				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $lang->line('close') ?></button>
+	        				<button type="button" class="btn btn-primary" data-create="file"><?= $lang->line('create') ?></button>
+	      				</div>
+	    			</div>
+	  			</div>
+			</div>
+
+			<!-- Modal confirm -->
+			<div class="modal fade corner-menu-modal" id="modal-confirm" tabindex="-1" role="dialog" aria-hidden="true">
+	  			<div class="modal-dialog" role="document">
+	    			<div class="modal-content">
+	      				<div class="modal-header">
+	        				<h5 class="modal-title w-100 text-center"><?= $lang->line('you_sure') ?></h5>
+	        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          					<span aria-hidden="true">&times;</span>
+	        				</button>
+	      				</div>
+	      				<!-- <div class="modal-body">
+	       					<div class="form-group">
+	            				<label for="recipient-name" class="form-control-label">File name: <span class="text-danger message"></span></label>
+	            				<input type="text" class="form-control" id="recipient-name">
+	            				<div class="form-control-feedback"></div>
+	          				</div>
+	      				</div> -->
+	      				<div class="modal-footer justify-content-center">
+	        				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $lang->line('no') ?></button>
+	        				<button type="button" class="btn btn-primary" data-action="yes"><?= $lang->line('yes') ?></button>
+	      				</div>
+	    			</div>
+	  			</div>
+			</div>
+
+			<!-- Modal rename -->
+			<div class="modal fade corner-menu-modal" id="modal-rename" tabindex="-1" role="dialog" aria-hidden="true">
+	  			<div class="modal-dialog" role="document">
+	    			<div class="modal-content">
+	      				<div class="modal-header">
+	        				<h5 class="modal-title w-100 text-center"><?= $lang->line('you_sure') ?></h5>
+	        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          					<span aria-hidden="true">&times;</span>
+	        				</button>
+	      				</div>
+	      				<div class="modal-body">
+	       					<div class="form-group">
+	            				<label for="recipient-name" class="form-control-label"><?= $lang->line('new_name') ?>: <span class="text-danger message"></span></label>
+	            				<input type="text" class="form-control" id="recipient-name">
+	            				<div class="form-control-feedback"></div>
+	          				</div>
+	      				</div>
+	      				<div class="modal-footer justify-content-center">
+	        				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $lang->line('back') ?></button>
+	        				<button type="button" class="btn btn-primary" data-action="yes"><?= $lang->line('rename') ?></button>
 	      				</div>
 	    			</div>
 	  			</div>
@@ -196,11 +250,22 @@
 				<div class="row tab-content" id="right-menu-top-content">
 
 	  				<div id="item-properties" class="tab-pane active">
-	  					<div class="col-12 text-center mb-5 preview-img">
-							<img src="<?= include_asset('file_type_icons_png/search.png') ?>" alt="">
+	  					<div class="col-12 text-center preview-img">
+	  						<div class="row">
+	  							<div class="col-12 px-0 pb-4">
+	  								<img src="<?= include_asset('file_type_icons_png/search.png') ?>" alt="">
+	  							</div>
+	  							<div class="col-12 px-0 pb-4 manage-menu">
+	  								<div class="btn-group">
+	  									<button class="btn btn-outline-primary btn-sm" data-action="rename"><?= $lang->line('rename') ?></button>
+										<button class="btn btn-outline-danger btn-sm" data-action="delete"><?= $lang->line('delete') ?></button>
+	  								</div>
+	  							</div>
+	  						</div>
+
 						</div>
 	  					<div class="col-12 preview-properties">
-	  						<p>Select a file</p>
+	  						<p><?= $lang->line('no_preview_message') ?></p>
 						</div>
 	  				</div>
 
@@ -237,7 +302,7 @@
 					</div>
 
 					<div class="col-12 pb-2 text-right">
-						<button class="btn btn-primary" id="upload-button"><i class="icon-upload-cloud"></i>Upload file</button>
+						<button class="btn btn-primary" id="upload-button"><i class="icon-upload-cloud"></i><?= $lang->line('upload_file') ?></button>
 					</div>
 				</div>
 			</div>

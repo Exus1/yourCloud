@@ -38,6 +38,8 @@ var Your_cloud = {
 	callbacks: {
 		object_click: null,
 		object_create: null,
+		object_rename: null,
+		object_delete: null
 		//folder_create: null
 	}
 };
@@ -157,6 +159,11 @@ Your_cloud.callbacks.object_click = function(e)
 	{
 		e.preventDefault();
 
+		// Object backlight
+		$('.drive-object').removeClass('active');
+
+		$(obj).addClass('active');
+
 		$.get('', {action: 'object_properties', id: $(obj).data('id')}).always(function(data) {
 			var obj_props = JSON.parse(data);
 
@@ -165,14 +172,21 @@ Your_cloud.callbacks.object_click = function(e)
 			$(Your_cloud.object_property_template).find('img').attr('src', obj_props['icon-src']);
 			$(Your_cloud.object_property_template).find('img').attr('alt', obj_props['icon-alt']);
 
+			// Show manage menu
+			$('.manage-menu').css('display', 'block');
+
 			$.each(obj_props, function(name, value) {
 				if((name == 'icon-src') || (name == 'icon-alt'))
 				{
 					return true;
 				}
 
+				
+
 				set_property_object(name, value, '.preview-properties');
 			});
+
+
 		});
 
 		$('.drive-object').attr('data-clicked', 'false');
@@ -201,6 +215,56 @@ Your_cloud.callbacks.object_create = function(e)
 	});
 }
 
+Your_cloud.callbacks.object_rename = function()
+{
+	var id = $('.drive-object.active').data('id');
+	var type = $('.drive-object.active').data('type');
+	var name = $('.drive-object.active').data('name');
+
+	$('#modal-rename').modal('show');
+
+	$('#modal-rename button[data-action="yes"]').unbind();
+
+	$('#modal-rename input').val(name);
+
+	$('#modal-rename button[data-action="yes"]').click(function() {
+		name = $('#modal-rename input').val();
+
+		$.get('', {action: 'rename_object', id: id, 'new_name': name}).always(function(data) {
+			if(data == 'success')
+			{
+				$('#modal-rename').modal('hide');
+
+				Your_cloud.refresh_objects();
+			}
+			else
+			{
+				$('#modal-rename .message').html(data);
+			}
+		})
+	});
+}
+
+Your_cloud.callbacks.object_delete = function()
+{
+	var id = $('.drive-object.active').data('id');
+	var type = $('.drive-object.active').data('type');
+	var name = $('.drive-object.active').data('name');
+
+	$('#modal-confirm').modal('show');
+
+	$('#modal-confirm button[data-action="yes"]').unbind();
+
+	$('#modal-confirm button[data-action="yes"]').click(function() {
+		
+		$.get('', {action: 'delete_object', id: id}).always(function(data) {
+			$('#modal-confirm').modal('hide');
+
+			Your_cloud.refresh_objects();
+		})
+	});
+}
+
 
 $('#drive-content').click(Your_cloud.callbacks.object_click);
 
@@ -209,3 +273,14 @@ Your_cloud.refresh_objects();
 //Your_cloud.add_object('{"icon_src":"test","icon_alt":"test","id":1,"type":1,"name":"lul"}');
 
 $('.corner-menu-modal button[data-create]').click(Your_cloud.callbacks.object_create);
+
+$('.manage-menu').click(function(e)
+{
+	var action = $(e.target).data('action');
+	if(typeof Your_cloud.callbacks['object_'+action] === 'undefined')
+	{
+		return;
+	}
+
+	Your_cloud.callbacks['object_'+action]();
+});
