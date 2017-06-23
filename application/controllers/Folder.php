@@ -215,9 +215,9 @@ class Folder extends MY_Controller {
 		foreach($files as $file)
 		{
 			if(! $file->move($this->storage))
-{
-	show_404();
-}
+			{
+				show_404();
+			}
 		}
 	}
 

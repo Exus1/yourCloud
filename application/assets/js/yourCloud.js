@@ -173,8 +173,8 @@ Your_cloud.callbacks.object_click = function(e)
 
 			$('.preview-properties').html('');
 
-			$(Your_cloud.object_property_template).find('img').attr('src', obj_props['icon-src']);
-			$(Your_cloud.object_property_template).find('img').attr('alt', obj_props['icon-alt']);
+			$('.preview-img').find('img').attr('src', obj_props['icon-src']);
+			$('.preview-img').find('img').attr('alt', obj_props['icon-alt']);
 
 			// Show manage menu
 			$('.manage-menu').css('display', 'block');
