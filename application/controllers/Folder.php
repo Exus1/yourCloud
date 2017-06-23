@@ -291,7 +291,7 @@ class Folder extends MY_Controller {
 
 		if($controller_name != 'index')
 		{
-			$this->paths['relative_to_user'] .= $controller_name;
+			$this->paths['relative_to_user'] .= urldecode($controller_name);
 		}
 
 		if(! empty($args))
