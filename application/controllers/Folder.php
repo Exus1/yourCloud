@@ -269,7 +269,7 @@ class Folder extends MY_Controller {
 				'size' => $this->_size_converter($info['size']),
 				'owner' => $this->db->select('name')->where('user_id', $info['owner_id'])->get('yc_users')->row_array()['name'],
 				'shared' => 'No',
-				'created' => date('d.m.Y H:i:s', $info['created']),
+				'created' => date('d.m.Y H:i', $info['created']),
 				'icon-src' => 'http://yourcloud.dev/application/assets/file_type_icons_png/search.png',
 				'icon-alt' => 'Icon'
 			);
