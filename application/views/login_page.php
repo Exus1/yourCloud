@@ -15,9 +15,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 	<div class="container-fluid">
 		<div class="row justify-content-center align-items-center">
-			<div class="col-3">
+			<div class="col" >
 
-				<div class="card" id="login-container">
+				<div class="card" id="login-container" style="width: 400px">
 					<div class="card-block">
 						<h3 class="card-title">yourCloud</h3>
 						<h6 class="card-subtitle mb-2 text-muted">Sign in</h6>

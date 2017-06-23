@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<div class="col-4">
+<div class="col-6 col-md-4">
   <div class="card" id="config-form">
     <div class="card-block">
       <h4 class="card-title">yourCloud - First setup</h4>
