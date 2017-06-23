@@ -2,10 +2,6 @@
 
 class Cloud_folder extends Cloud_object
 {
-	function __consturct()
-	{
-		parent::__consturct();
-	}
 
 	public function delete()
 	{

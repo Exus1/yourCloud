@@ -2,6 +2,12 @@
 
 class Cloud_file extends Cloud_object
 {
+	function __construct($properties)
+	{
+		parent::__construct($properties);
+
+		$this->properties['extension'] = substr($this->name, strrpos($this->name, '.')+1);
+	}
 
 	public function get_content()
 	{

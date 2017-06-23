@@ -254,13 +254,13 @@ abstract class Cloud_object
 
 		if($summary['type'] == 1) // Files
 		{
-			$summary['icon_src'] = include_file_type_icon('file.png');
+			$summary['icon_src'] = include_file_type_icon($this->extension . '.png');
 			$summary['icon_alt'] = 'File icon';
 		}
 		else
 		{
 			$summary['icon_src'] = include_file_type_icon('search.png');
-			$summary['icon_alt'] = 'File icon';
+			$summary['icon_alt'] = 'Folder icon';
 		}
 
 		return $summary;

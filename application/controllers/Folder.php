@@ -306,8 +306,8 @@ class Folder extends MY_Controller {
 				$lang->line('owners') => $this->db->select('name')->where('user_id', $info['owner_id'])->get('yc_users')->row_array()['name'],
 				$lang->line('shared') => $lang->line('shared_no'),
 				$lang->line('created') => date('d.m.Y H:i', $info['created']),
-				'icon-src' => 'http://yourcloud.dev/application/assets/file_type_icons_png/search.png',
-				'icon-alt' => 'Icon'
+				'icon-src' => $info['icon_src'], //'http://yourcloud.dev/application/assets/file_type_icons_png/search.png',
+				'icon-alt' => $info['icon_alt']
 			);
 			
 			echo json_encode($properties);
