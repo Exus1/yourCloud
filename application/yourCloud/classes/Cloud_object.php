@@ -266,6 +266,54 @@ abstract class Cloud_object
 		return $summary;
 	}
 
+	public function share($user_id, $permissions)
+	{
+		$result = $this->ci->db->where('partner_id', $user_id)->where('fid', $this->id)->get('yc_shared_objects')->row_array();
+
+		$shared_data = array(
+			'fid' => $this->id,
+			'owner_id' => $this->owner_id,
+			'partner_id' => $user_id,
+			'permissions' => $permissions
+		);
+
+		if(! isset($result))
+		{
+			$this->ci->db->set('sharing', 1)->where('id', $this->id)->update('yc_filecache');
+			return $this->ci->db->insert('yc_shared_objects', $shared_data);
+		}
+
+		if($result == $shared_data)
+		{
+			return TRUE;
+		}
+		
+		$this->ci->db->where('fid', $this->id)->where('partner_id', $user_id)->set('permissions', $permissions);
+
+		return $this->ci->db->update('yc_shared_objects');
+	}
+
+	public function delete_sharing($user_id)
+	{
+		$shared_count = $this->ci->db->where('fid', $this->id)->get('yc_shared_objects')->num_rows();
+
+		$result = $this->ci->db->where('fid', $this->id)->where('partner_id', $user_id)->delete('yc_shared_objects');
+
+		if($result)
+		{
+			if($shared_count == 1)
+			{
+				return $this->ci->db->where('id', $this->id)->set('sharing', 0)->update('yc_filecache');
+			}
+
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
 	public abstract function delete();
 
 	protected function update_data($data)

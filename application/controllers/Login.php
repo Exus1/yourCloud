@@ -1,11 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/*
+	Login controller
+	================
+
+	This contoller is used to creating login page
+
+*/
+
+
 class Login extends MY_Controller {
 
 	private $db_result;
 
-
+	//
+	// Form validation callback funcion
+	//
 	public function username_check($name)
 	{
 		$name = $this->security->xss_clean($name);
@@ -24,6 +35,9 @@ class Login extends MY_Controller {
 		}
 	}
 
+	//
+	// Form validation callback funcion
+	//
 	public function password_verify($password)
 	{
 		$password = $this->security->xss_clean($password);
@@ -42,7 +56,6 @@ class Login extends MY_Controller {
 
 	public function index()
 	{
-
 		$this->load->library('form_validation');
 
 		$this->form_validation->set_rules(array(
@@ -65,12 +78,10 @@ class Login extends MY_Controller {
 			return;
 		}
 
-
 		$this->db_result['logged_in'] = TRUE;
 
 		$this->session->set_userdata($this->db_result);
 
 		redirect('/');
-
 	}
 }

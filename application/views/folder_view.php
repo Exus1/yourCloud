@@ -33,17 +33,17 @@
 						
 
 						<?php
-							$uri = site_url(). '/folder';
-
 							$segments = get_instance()->uri->segment_array();
+
+							$uri = site_url(). '/'. $segments[1];
 
 							if(count($segments) == 1)
 							{
-								echo '<a class="breadcrumb-item active" href="'. site_url() .'"><i class="icon-home home-link"></i></a>';
+								echo '<a class="breadcrumb-item active" href="'. site_url(). DIRECTORY_SEPARATOR. $segments[1] .'"><i class="icon-home home-link"></i></a>';
 							}
 							else
 							{
-								echo '<a class="breadcrumb-item" href="'. site_url() .'"><i class="icon-home home-link"></i></a>';
+								echo '<a class="breadcrumb-item" href="'. site_url(). DIRECTORY_SEPARATOR. $segments[1] .'"><i class="icon-home home-link"></i></a>';
 							}
 
 							for($i = 2; $i <= count($segments); $i++)
@@ -245,6 +245,52 @@
 	  			</div>
 			</div>
 
+			<!-- Modal share -->
+			<div class="modal fade corner-menu-modal" id="modal-share" tabindex="-1" role="dialog" aria-hidden="true">
+	  			<div class="modal-dialog" role="document">
+	    			<div class="modal-content">
+	      				<div class="modal-header">
+	        				<h5 class="modal-title w-100 text-center"><?= $lang->line('share_title') ?></h5>
+	        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          					<span aria-hidden="true">&times;</span>
+	        				</button>
+	      				</div>
+	      				<div class="modal-body">
+	       					<div class="form-group">
+	            				<label for="recipient-name" class="form-control-label"><?= $lang->line('share_input_message') ?>: <span class="text-danger message"></span></label>
+	            				<input type="text" class="form-control" id="recipient-name">
+	            				<div class="form-control-feedback"></div>
+	          				</div>
+	      				</div>
+	      				<div class="modal-footer justify-content-center">
+	        				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $lang->line('back') ?></button>
+	        				<button type="button" class="btn btn-primary" data-action="yes"><?= $lang->line('share_button') ?></button>
+	      				</div>
+	    			</div>
+	  			</div>
+			</div>
+
+			<!-- Modal popout -->
+			<div class="modal fade corner-menu-modal" id="modal-popout" tabindex="-1" role="dialog" aria-hidden="true">
+	  			<div class="modal-dialog" role="document">
+	    			<div class="modal-content">
+	      				<!-- <div class="modal-header">
+	        				<h5 class="modal-title w-100 text-center"><?= $lang->line('share_title') ?></h5>
+	        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          					<span aria-hidden="true">&times;</span>
+	        				</button>
+	      				</div> -->
+	      				<div class="modal-body">
+	       					<p></p>
+	      				</div>
+	      				<!-- <div class="modal-footer justify-content-center">
+	        				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $lang->line('back') ?></button>
+	        				<button type="button" class="btn btn-primary" data-action="yes"><?= $lang->line('share_button') ?></button>
+	      				</div> -->
+	    			</div>
+	  			</div>
+			</div>
+
 
 			<div class="" id="right-menu">
 				<div class="row tab-content" id="right-menu-top-content">
@@ -258,6 +304,7 @@
 	  							<div class="col-12 px-0 pb-4 manage-menu">
 	  								<div class="btn-group">
 	  									<button class="btn btn-outline-primary btn-sm" data-action="rename"><?= $lang->line('rename') ?></button>
+	  									<button class="btn btn-outline-warning btn-sm" data-action="share"><?= $lang->line('share') ?></button>
 										<button class="btn btn-outline-danger btn-sm" data-action="delete"><?= $lang->line('delete') ?></button>
 	  								</div>
 	  							</div>

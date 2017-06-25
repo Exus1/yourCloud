@@ -1,14 +1,20 @@
 <?php
-$lang['upload_file'] = 'Upload file';
-$lang['float_upload_title'] = 'To upload, drag file here.';
-$lang['no_preview_message'] = 'Select a file or a folder, to see his properties.';
-$lang['rename'] = 'Rename';
-$lang['delete'] = 'Delete';
-$lang['back'] = 'Back';
-$lang['new_name'] = 'New name';
-$lang['name'] = 'Name';
-$lang['you_sure'] = 'Are you sure?';
-$lang['create'] = 'Create';
-$lang['close'] = 'Close';
-$lang['file_creating'] = 'File creating';
-$lang['folder_creating'] = 'Folder creating';
+$lang = array(
+	'upload_file' => 'Upload file',
+	'float_upload_title' => 'To upload, drag file here.',
+	'no_preview_message' => 'Select a file or a folder, to see his properties.',
+	'rename' => 'Rename',
+	'share' => 'Share',
+	'delete' => 'Delete',
+	'back' => 'Back',
+	'new_name' => 'New name',
+	'name' => 'Name',
+	'you_sure' => 'Are you sure?',
+	'create' => 'Create',
+	'close' => 'Close',
+	'file_creating' => 'File creating',
+	'folder_creating' => 'Folder creating',
+	'share_title' => 'Sharing object',
+	'share_input_message' => 'Type your partner id or nickname',
+	'share_button' => 'Share',
+);

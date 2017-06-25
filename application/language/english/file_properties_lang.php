@@ -8,8 +8,7 @@ $lang = array(
 
 	'size' => 'Size',
 
-	'owners' => 'Owners',
-	'owners_self' => 'I',
+	'owner' => 'Owner',
 
 	'shared' => 'Shared',
 	'shared_yes' => 'Yes',

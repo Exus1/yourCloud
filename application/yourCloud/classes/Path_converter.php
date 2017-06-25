@@ -34,6 +34,11 @@ class Path_converter
 
 	public static function convert_to_relative($path)
 	{
+		if(empty($path))
+		{
+			return;
+		}
+
 		$path = trim($path);
 
 		$path = self::normalize($path);
@@ -46,6 +51,11 @@ class Path_converter
 
 	public static function convert_to_absolute($path)
 	{
+		if(empty($path))
+		{
+			return;
+		}
+		
 		$path = trim($path);
 
 		$path = self::normalize($path);

@@ -40,11 +40,19 @@ var Your_cloud = {
 		object_create: null,
 		object_rename: null,
 		object_delete: null,
+		object_share: null,
 		sorting_select: null,
 		//folder_create: null
-	}
+	},
+	popout: null,
 };
 
+
+Your_cloud.popout = function(msg)
+{
+	$('#modal-popout .modal-body').html(msg);
+	$('#modal-popout').modal('show');
+}
 
 Your_cloud.add_object = function(object_data)
 {
@@ -73,6 +81,13 @@ Your_cloud.add_object = function(object_data)
 	object.attr('data-type', object_data.type);
 	object.attr('data-name', object_data.name);
 	object.attr('data-id', object_data.id);
+	object.attr('data-owner', object_data.owner_id);
+	object.attr('data-sharing', object_data.sharing);
+
+	if(typeof object_data.shared !== 'undefined')
+	{
+		object.attr('data-shared', object_data.shared);
+	}
 
 	$(Your_cloud.objects_container).append(object.parent());
 }
@@ -245,6 +260,40 @@ Your_cloud.callbacks.object_rename = function()
 			{
 				$('#modal-rename .message').html(data);
 			}
+		})
+	});
+}
+
+Your_cloud.callbacks.object_share = function()
+{
+	var id = $('.drive-object.active').data('id');
+	var type = $('.drive-object.active').data('type');
+	var shared = $('.drive-object.active').data('shared');
+
+	$('#modal-share').modal('show');
+
+	$('#modal-share button[data-action="yes"]').unbind();
+
+	$('#modal-share button[data-action="yes"]').click(function() {
+		user_id = $('#modal-share input').val();
+
+		$.get('/api/share_object', {object_id: id, user_id: user_id}).always(function(data) {
+			if(data == 'success')
+			{
+				$('#modal-share').modal('hide');
+
+			}
+			else if(data != 'error')
+			{
+				$('#modal-share').modal('hide');
+				Your_cloud.popout(data);
+			}
+			else
+			{
+				$('#modal-share').modal('hide');
+			}
+
+			$('#modal-share input').val('');
 		})
 	});
 }

@@ -1,6 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/*
+  First setup controller
+  ======================
+
+  Steps:
+    1. Databse configuration
+    2. Storage configuration
+    3. Creating admin account
+*/
+
+
+
 class First_setup extends MY_Controller {
 
   function __construct()
@@ -22,9 +34,16 @@ class First_setup extends MY_Controller {
     $this->load->view('first_setup/footer');
   }
 
+
+  //
+  // Step 1
+  // ======
+  //
   public function step_1()
   {
-
+    //
+    // Validation rules
+    //
     $this->form_validation->set_rules(array(
       array(
         'field' => 'address',
@@ -60,8 +79,10 @@ class First_setup extends MY_Controller {
     $password = $this->input->post('password', TRUE);
     $table_name = $this->input->post('name', TRUE);
 
+    //
+    // Checking MySQL connection
+    //
     $mysqli = new mysqli($address, $username, $password, $table_name);
-
 
     if($mysqli->connect_errno)
     {
@@ -103,7 +124,6 @@ class First_setup extends MY_Controller {
 
     $config_file = file_get_contents($config_file_path);
 
-    // Address
     $config_file = str_replace('hostname_value', $address, $config_file);
     $config_file = str_replace('username_value', $username, $config_file);
     $config_file = str_replace('password_value', $password, $config_file);
@@ -134,12 +154,21 @@ class First_setup extends MY_Controller {
       return;
     }
 
+    //
+    // Redirect to next step
+    //
     redirect('first_setup/step_2');
   }
 
+  //
+  // Step 2
+  // ======
+  //
   public function step_2()
   {
-
+    //
+    // Form validation rules
+    //
     $this->form_validation->set_rules(array(
       array(
         'field' => 'storage_path',
@@ -155,6 +184,9 @@ class First_setup extends MY_Controller {
       return;
     }
 
+    //
+    // Checking if selected folder is exist
+    //
     $path = Path_converter::normalize($this->input->post('storage_path', TRUE));
 
     if(! is_dir($path))
@@ -171,6 +203,9 @@ class First_setup extends MY_Controller {
       return;
     }
 
+    //
+    // Adding selected folder to database configuration
+    //
     $this->db_config->add('storage_path', $path);
 
     if(! $this->db_config->get('storage_path'))
@@ -180,6 +215,9 @@ class First_setup extends MY_Controller {
       return;
     }
 
+    //
+    // Adding stroage folder to database file index
+    //
     $filecache_storage = array(
       'pid' => '0',
       'owner_id' => '0',
@@ -199,14 +237,26 @@ class First_setup extends MY_Controller {
       return;
     }
 
-    // Set storage id
+    //
+    // Setting storage folder id to 0
+    //
     $this->db->where('id', '1')->set('id', '0')->update('yc_filecache');
 
+    //
+    // Redirect to next step
+    //
     redirect('first_setup/step_3');
   }
 
+  //
+  // Step 3
+  // ======
+  //
   public function step_3()
   {
+    //
+    // Form validaton rules
+    //
     $this->form_validation->set_rules(array(
       array(
         'field' => 'login',
@@ -233,6 +283,9 @@ class First_setup extends MY_Controller {
       return;
     }
 
+    //
+    // Creating user
+    //
     $login = $this->input->post('login', TRUE);   
     $password = password_hash($this->input->post('password', TRUE), PASSWORD_DEFAULT);
     $email = $this->input->post('e_mail', TRUE);
@@ -272,6 +325,9 @@ class First_setup extends MY_Controller {
 
     $user = new Cloud_user($login);
 
+    //
+    // Creating user storage folder
+    //
     $storage_path = $this->db_config->get('storage_path'). DIRECTORY_SEPARATOR. $user->user_id;
 
     if(! mkdir($storage_path))
@@ -287,20 +343,10 @@ class First_setup extends MY_Controller {
 
     Cloud_object::add($storage_rel_path);
 
+    //
+    // Redirect to login page
+    //
     redirect('/login');
   }
-
-
-
-  private function _create_tables()
-  {
-
-  }
-
-  private function _create_storage($path)
-  {
-
-  }
-
 
 }
